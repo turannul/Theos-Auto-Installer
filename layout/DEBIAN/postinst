@@ -1,0 +1,10 @@
+#! /bin/bash
+chown 0:0 /usr/sbin/fixTheos -cv
+chmod 6755 /usr/sbin/fixTheos -cv
+
+echo "Fixing commands..."
+
+chmod 6755 /usr/bin/t -cv
+chmod 6755 /usr/bin/nic -cv
+chmod 6755 /usr/bin/make -cv
+chmod 6755 /usr/bin/tmake -cv
