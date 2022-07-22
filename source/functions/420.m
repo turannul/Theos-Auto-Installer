@@ -362,11 +362,6 @@ extern char **environ;
 	NSString *DIV = @"#######################################\n";
 	NSString *DIV1 = @"#######ಠ_ಠ#####( ͠° ͟ʖ ͡°)####(•̀ᴗ•́)و######\n";
 	NSString *DIV2 = @"####ADDED#BY#THEOS#AUTO#INSTALLER######\n";
-	NSString *NIC = [NSString stringWithFormat:@"export nic=%@/bin/nic.pl\n", installHere];
-	NSString *CD = @"export cd=\"cd /var/mobile/tweaks\"\n";
-	NSString *T = @"export t=/var/mobile/tweaks\n";
-	NSString *MAKEC = @"export make=\"make clean package\"\n";
-	NSString *MAKE = @"export m=\"make package\"\n";
 	NSString *PACKAGE = [NSString stringWithFormat:@"export THEOS_PACKAGE_DIR_NAME=\"%@\"\n", GetNSString(@"debFolder", @"DEBs", plist)];
 	NSString *THEOS = ![installedHere isEqualToString:@""] ? [NSString stringWithFormat:@"export THEOS=%@\n", installedHere] : installedHere;
 	NSString *DEBUG = [NSString stringWithFormat:@"export DEBUG=%@\n", GetNSString(@"debug", @"0", plist)];
@@ -413,13 +408,7 @@ extern char **environ;
 			
 	NSString *ARCHS = [NSString stringWithFormat:@"export ARCHS=\"%@\"\n", Archs];
 
-	NSString *addToFile = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@", DIV, DIV1, DIV2, DIV, THEOS, ARCHS, DEBUG, FINAL, MAKE, MAKEC, NIC, PACKAGE];
-
-	if ([profile isEqualToString:@".profile"]){
-		addToFile = [NSString stringWithFormat:@"%@%@", addToFile, CD];
-	}else{
-		addToFile = [NSString stringWithFormat:@"%@%@", addToFile, T];
-	}
+	NSString *addToFile = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@", DIV, DIV1, DIV2, DIV, THEOS, ARCHS, DEBUG, FINAL, PACKAGE];
 
 	addToFile = [NSString stringWithFormat:@"%@%@%@%@%@", addToFile, DIV, DIV2, DIV1, DIV];
 
