@@ -367,36 +367,24 @@ extern char **environ;
 
 	printf("%s", Print.UTF8String);
 }
+// !!! First install REQUIRES source ~/.theosrc or (/private/var/mobile/.theosrc In case) Apperantly nothing does, until i add (!!!!!!!)**Important** Issue!!!!!!!)
+// !! Files on root stays as it is (Who runs theos as root anyway issue is issue)
+// . Removing theos will not remove .theosrc First Bug (NOT Real issue)
 
 -(void) addToProfile:(BOOL)addToProfile profile:(NSString *)profile{
 	NSString *plist = @"com.randy420.tai";
-/* 
-export THEOS=/opt/theos
-export ARCHS=arm64 arm64e
-export DEBUG=0
-export FINALPACKAGE=1
-export mp=make package
-export md=make do
-export mcp=make clean package
-export nic=/opt/theos/bin/nic.pl
-export THEOS_PACKAGE_DIR_NAME=build
-export t=/var/mobile/tweaks
-export THEOS_PACKAGE_SCHEME=rootless # to do selectable from Preferences. theos login info removed here
-export THEOS_DEVICE_IP=localhost // make do with gap? 
-export THEOS_DEVICE_PORT=2222 // I dont build stuff on phone its too slow so this is remain untested until someone test it... (Hopefully)
-*/
 	NSString *installedHere = [self installedVarTheos] ? @"/var/theos" : [self installedTheos] ? @"/theos" : [self installedOptTheos] ? @"/opt/theos" : @"";
 	NSString *DIV = @"#######################################\n";
 	NSString *DIV1 = @"#######ಠ_ಠ#####( ͠° ͟ʖ ͡°)####(•̀ᴗ•́)و######\n";
 	NSString *DIV2 = @"####ADDED#BY#THEOS#AUTO#INSTALLER######\n";
 	NSString *NIC = [NSString stringWithFormat:@"export nic=%@/bin/nic.pl\n", installHere]; // Seprate files as command so usage $nic >> nic or combine them all in one tai nic?
-	NSString *CD = @"export cd=\"cd /var/mobile/tweaks\"\n";
+	NSString *CD = @"export cd=/var/mobile/tweaks\n";
 	NSString *T = @"export t=/var/mobile/tweaks\n";
-	NSString *MAKE = @"export mp=\"make package\"\n"; // Seprate files as command so usage $mp >> mp
-	NSString *MAKEC = @"export mcp=\"make clean package\"\n"; // Seprate as command so usage $mcp >> mcp
-	NSString *MAKED = @"export md=\"make do\"\n"; // Seprate files as command so usage $md >> md
+	NSString *MAKE = @"export mp=make package\n"; // Seprate files as command so usage $mp >> mp
+	NSString *MAKEC = @"export mcp=make clean package\n"; // Seprate as command so usage $mcp >> mcp
+	NSString *MAKED = @"export md=make do\n"; // Seprate files as command so usage $md >> md
 	//NSString *SCHEME = @"export THEOS_PACKAGE_SCHEME=rootless\n"; // Not currently exist on preferences.
-	NSString *PACKAGE = [NSString stringWithFormat:@"export THEOS_PACKAGE_DIR_NAME=\"%@\"\n", GetNSString(@"debFolder", @"DEBs", plist)];
+	NSString *PACKAGE = [NSString stringWithFormat:@"export THEOS_PACKAGE_DIR_NAME=%@\n", GetNSString(@"debFolder", @"DEBs", plist)];
 	NSString *THEOS = ![installedHere isEqualToString:@""] ? [NSString stringWithFormat:@"export THEOS=%@\n", installedHere] : @"";
 	NSString *DEBUG = [NSString stringWithFormat:@"export DEBUG=%@\n", GetNSString(@"debug", @"0", plist)];
 	NSString *FINAL = [NSString stringWithFormat:@"export FINALPACKAGE=%@\n", GetNSString(@"finalPackage", @"1", plist)];
@@ -430,7 +418,7 @@ export THEOS_DEVICE_PORT=2222 // I dont build stuff on phone its too slow so thi
 	if ([ARCHS isEqualToString:@""])
 		ARCHS = @"arm64 arm64e";
 
-	ARCHS = [NSString stringWithFormat:@"export ARCHS=\"%@\"\n", ARCHS];
+	ARCHS = [NSString stringWithFormat:@"export ARCHS=%@\n", ARCHS];
 
 	NSString *addToFile = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@", DIV, DIV1, DIV2, DIV, THEOS, ARCHS, DEBUG, FINAL, MAKEC, MAKED, MAKE, NIC, PACKAGE];
 
