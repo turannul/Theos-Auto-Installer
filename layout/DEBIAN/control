@@ -1,0 +1,16 @@
+Package: com.randy420.tai
+Name: Theos Auto Installer
+Version: 5.2.3~beta(1)
+Architecture: iphoneos-arm
+Homepage: https://theemeraldisle.family
+Maintainer: Randy420 <randy.skinner@hotmail.com>
+Author: Randy420 <randy.skinner@hotmail.com>
+Section: System
+Tag: role::hacker role::developer
+Depiction: https://Randy-420.GitHub.io/depic/tai.html
+Description: Install Theos from terminal using a simple command.
+ Configure from settings and connect to Wi-Fi. To uninstall, use the command tai -u. To reinstall, use the command tai -r.
+Pre-Depends: com.randy420.tools (>= 2.3), bash
+Depends: clang, curl, git, grep, perl, rsync, unzip, make, ldid, xar
+Recommends: com.opa334.ccsupport
+Conflicts: net.howett.theos
