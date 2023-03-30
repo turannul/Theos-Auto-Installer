@@ -5,7 +5,7 @@
 <body>
 
 # TAI Depends (and TAI) Installer Script
-This is a script for installing the TAI dependencies on your device.
+Bash script for installing the TAI (and dependencies) in one run.
 
 ## Usage
 
