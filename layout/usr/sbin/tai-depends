@@ -24,7 +24,7 @@ checkInstall(){
 	shift 1
 	Version="$1"
 
-	installedVersion=$(apt list --installed 2>/dev/null | grep -w $Depends | sed 's/randy420//g' | sed 's/[^0-9]*//g' | sed -r 's/(.{1})/\1./g' |  sed 's/.$//')
+	installedVersion=$(apt list --installed 2>/dev/null | grep -w "$Depends" | sed 's/randy420//g' | sed 's/[^0-9]*//g' | sed -r 's/(.{1})/\1./g' |  sed 's/.$//')
 
 	if [[ "$installedVersion" == "$Version" ]]; then
 		echo -e "${LG}Dependencies up to date${NC}\n"
@@ -58,7 +58,7 @@ whatsHappening(){
 		sleep 5
 	fi
 
-	apt-get ${installType} ${package} -y --allow-unauthenticated
+	apt-get "${installType}" "${package}" -y --allow-unauthenticated
 }
 while getopts ":~" opt; do
 	case ${opt} in
@@ -67,7 +67,7 @@ while getopts ":~" opt; do
 			LG=''			#Green
 			P=''			#Purple
 			NC=''			#Default shell colour
-			settings=1
+			settings=1 
 		;;
 	esac
 done
@@ -78,10 +78,7 @@ if [ "$settings" -eq 0 ]; then
 #========================================
 	iosv="$(sw_vers -productVersion)"
 
-	jbd=/private/var/jb/cheyote
-	if test -d "$jbd"; then
-		jb=$(tput setaf 5;)"Cheyote"
-	else
+
 		jbd=/taurine
 		if test -d "$jbd"; then
 			jb=$(tput setaf 5;)"Taurine"
@@ -102,18 +99,18 @@ if [ "$settings" -eq 0 ]; then
 						if test -f "$jbd"; then
 							jb="$(tput setaf 7;)$(tput setab 0;)checkra1n"
 						else
-							jb="$(tput setaf 1;)Unknown Jailbreak?"
+							jb="$(tput setaf 1;)Unknown Jailbreak? (Please report this)$(tput setab 0)"
 						fi
+							#jbd=/var/jb/fugu15? Dont have detatils atm
 					fi
 				fi
 			fi
 		fi
-	fi
 #========================================
-	if [[ $iosv -eq 15 ]]; then
-		echo "$(tput setaf 1;) iOS 15 not supported at this moment "
-		exit
-	fi
+	#if [[ $iosv -eq 15 ]]; then Depends on maintainer we have nothing to do here
+	#	echo "$(tput setaf 1;) iOS 15 not supported at this moment "
+#		exit
+#	fi
 #========================================
 
 	(tput setab 0)
