@@ -76,7 +76,7 @@ extern char **environ;
 	fm = NSFileManager.defaultManager;
 	leaf = @"\n                     .                          \n                     M                          \n                    dM                          \n                    MMr                         \n                   4MMML                  .     \n                   MMMMM.                xf     \n   .              \"MMMMM               .MM-     \n    Mh..          +MMMMMM            .MMMM      \n    .MMM.         .MMMMML.          MMMMMh      \n     )MMMh.        MMMMMM         MMMMMMM       \n      3MMMMx.     \'MMMMMMf      xnMMMMMM\"       \n      \'*MMMMM      MMMMMM.     nMMMMMMP\"        \n        *MMMMMx    \"MMMMM\\    .MMMMMMM=         \n         *MMMMMh   \"MMMMM\"   JMMMMMMP           \n           MMMMMM   3MMMM.  dMMMMMM            .\n            MMMMMM  \"MMMM  .MMMMM(        .nnMP\"\n=..          *MMMMx  MMM\"  dMMMM\"    .nnMMMMM*  \n  \"MMn...     \'MMMMr \'MM   MMM\"   .nMMMMMMM*\"   \n   \"4MMMMnn..   *MMM  MM  MMP\"  .dMMMMMMM\"\"     \n     ^MMMMMMMMx.  *ML \"M .M*  .MMMMMM**\"        \n        *PMMMMMMhn. *x > M  .MMMM**\"\"           \n           \"\"**MMMMhx/.h/ .=*\"                  \n                    .3P\"%....";
 
-	self.profiles = @[@".profile", @".zprofile", @".zshrc", @".bash_profile"];
+	self.profiles = @[@".theosrc"];
 	leaf = [NSString stringWithFormat:@"%s%@%s\n", c_green, leaf, c_reset];
 	leaf = [NSString stringWithFormat:@"%@\t     %sT%sheos %sA%suto %sI%snstaller%s\n", leaf, c_red, c_cyan, c_red, c_cyan, c_red, c_cyan, c_reset];
 	leaf = [NSString stringWithFormat:@"%@%s                     Randy420%s\n\n", leaf, c_red, c_reset];
@@ -157,7 +157,7 @@ extern char **environ;
 	Link = [NSString stringWithFormat:@"https://dropbox.com/s/%@/%@.zip", Link, sdk];
 	Loc = [NSString stringWithFormat:@"%@/sdks/iPhoneOS%@.sdk", installHere, sdk];
 	if (![fm fileExistsAtPath:Loc]) {
-		runCode = [NSString stringWithFormat:@"echo \"curl -LO %@\" | gap;TMP=$(mktemp -d);echo \"unzip %@.zip -d $TMP\" | gap;echo \"mv $TMP/*.sdk %@/sdks\" | gap;echo \"rm -r %@.zip $TMP\" | gap", Link, sdk, installHere, sdk];
+		runCode = [NSString stringWithFormat:@"echo \"curl -LO %@\" | gap;TMP=$(mktemp -d);echo \"unzip -q %@.zip -d $TMP\" | gap;echo \"mv $TMP/*.sdk %@/sdks\" | gap;echo \"rm -r %@.zip $TMP\" | gap", Link, sdk, installHere, sdk];
 		[self RunCMD:runCode WaitUntilExit: YES];
 		self.totalDownloaded += 1;
 		if ([fm fileExistsAtPath: Loc]) {
@@ -305,7 +305,7 @@ extern char **environ;
 -(void)enhancer{
 	if (self.enhance) {
 		if ([fm fileExistsAtPath:installHere]) {
-			runCode = [NSString stringWithFormat:@"echo \"curl -LO https://dropbox.com/s/ya3i2fft4dqvccm/includes.zip\" | gap;TMP=$(mktemp -d);echo \"unzip includes.zip -d $TMP\" | gap;echo \"mv $TMP/include/* %@/include\" | gap;echo \"mv $TMP/lib/* %@/lib\" | gap;echo \"mv $TMP/templates/* %@/templates\" | gap;echo \"mv $TMP/vendor/* %@/vendor\" | gap;echo;echo \"rm -r includes.zip $TMP\" | gap", installHere, installHere, installHere, installHere];
+			runCode = [NSString stringWithFormat:@"echo \"curl -LO https://dropbox.com/s/ya3i2fft4dqvccm/includes.zip\" | gap;TMP=$(mktemp -d);echo \"unzip -q includes.zip -d $TMP\" | gap;echo \"mv $TMP/include/* %@/include\" | gap;echo \"mv $TMP/lib/* %@/lib\" | gap;echo \"mv $TMP/templates/* %@/templates\" | gap;echo \"mv $TMP/vendor/* %@/vendor\" | gap;echo;echo \"rm -r includes.zip $TMP\" | gap", installHere, installHere, installHere, installHere];
 			[self RunCMD:runCode WaitUntilExit: YES];
 		}
 		if ([fm fileExistsAtPath:[NSString stringWithFormat:@"%@/vendor/templates/test.sh", installHere]]) {
@@ -370,16 +370,32 @@ extern char **environ;
 
 -(void) addToProfile:(BOOL)addToProfile profile:(NSString *)profile{
 	NSString *plist = @"com.randy420.tai";
-
+/* 
+export THEOS=/opt/theos
+export ARCHS=arm64 arm64e
+export DEBUG=0
+export FINALPACKAGE=1
+export mp=make package
+export md=make do
+export mcp=make clean package
+export nic=/opt/theos/bin/nic.pl
+export THEOS_PACKAGE_DIR_NAME=build
+export t=/var/mobile/tweaks
+export THEOS_PACKAGE_SCHEME=rootless # to do selectable from Preferences. theos login info removed here
+export THEOS_DEVICE_IP=localhost // make do with gap? 
+export THEOS_DEVICE_PORT=2222 // I dont build stuff on phone its too slow so this is remain untested until someone test it... (Hopefully)
+*/
 	NSString *installedHere = [self installedVarTheos] ? @"/var/theos" : [self installedTheos] ? @"/theos" : [self installedOptTheos] ? @"/opt/theos" : @"";
 	NSString *DIV = @"#######################################\n";
 	NSString *DIV1 = @"#######ಠ_ಠ#####( ͠° ͟ʖ ͡°)####(•̀ᴗ•́)و######\n";
 	NSString *DIV2 = @"####ADDED#BY#THEOS#AUTO#INSTALLER######\n";
-	NSString *NIC = [NSString stringWithFormat:@"export nic=%@/bin/nic.pl\n", installHere];
+	NSString *NIC = [NSString stringWithFormat:@"export nic=%@/bin/nic.pl\n", installHere]; // Seprate files as command so usage $nic >> nic or combine them all in one tai nic?
 	NSString *CD = @"export cd=\"cd /var/mobile/tweaks\"\n";
 	NSString *T = @"export t=/var/mobile/tweaks\n";
-	NSString *MAKEC = @"export make=\"make clean package\"\n";
-	NSString *MAKE = @"export m=\"make package\"\n";
+	NSString *MAKE = @"export mp=\"make package\"\n"; // Seprate files as command so usage $mp >> mp
+	NSString *MAKEC = @"export mcp=\"make clean package\"\n"; // Seprate as command so usage $mcp >> mcp
+	NSString *MAKED = @"export md=\"make do\"\n"; // Seprate files as command so usage $md >> md
+	//NSString *SCHEME = @"export THEOS_PACKAGE_SCHEME=rootless\n"; // Not currently exist on preferences.
 	NSString *PACKAGE = [NSString stringWithFormat:@"export THEOS_PACKAGE_DIR_NAME=\"%@\"\n", GetNSString(@"debFolder", @"DEBs", plist)];
 	NSString *THEOS = ![installedHere isEqualToString:@""] ? [NSString stringWithFormat:@"export THEOS=%@\n", installedHere] : @"";
 	NSString *DEBUG = [NSString stringWithFormat:@"export DEBUG=%@\n", GetNSString(@"debug", @"0", plist)];
@@ -387,8 +403,8 @@ extern char **environ;
 	NSString *ARCHS = @"";
 
 	static bool armv7, armv7s, arm64, arm64e;
-	armv7 = GetBool(@"armv7", YES, plist);
-	armv7s = GetBool(@"armv7s", YES, plist);
+	armv7 = GetBool(@"armv7", NO, plist); // armv7 is not supported by iOS 11 and above. and literally no body uses it.
+	armv7s = GetBool(@"armv7s", NO, plist); // Same as(for) armv7(s)
 	arm64 = GetBool(@"arm64", YES, plist);
 	arm64e = GetBool(@"arm64e", YES, plist);
 
@@ -416,9 +432,9 @@ extern char **environ;
 
 	ARCHS = [NSString stringWithFormat:@"export ARCHS=\"%@\"\n", ARCHS];
 
-	NSString *addToFile = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@", DIV, DIV1, DIV2, DIV, THEOS, ARCHS, DEBUG, FINAL, MAKE, MAKEC, NIC, PACKAGE];
+	NSString *addToFile = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@", DIV, DIV1, DIV2, DIV, THEOS, ARCHS, DEBUG, FINAL, MAKEC, MAKED, MAKE, NIC, PACKAGE];
 
-	if ([profile isEqualToString:@".profile"]){
+	if ([profile isEqualToString:@".theosrc"]){
 		addToFile = [NSString stringWithFormat:@"%@%@", addToFile, CD];
 	}else{
 		addToFile = [NSString stringWithFormat:@"%@%@", addToFile, T];

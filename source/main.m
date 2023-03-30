@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 	"-s%s %@ '%s/theos%s' %@ '%s/var/theos%s').\n%s"
 	"-v%s %@ Theos.%s\n"
 	"-.%s %@.\n%s"
-	"-p update .profile, .zprofile and .zshrc",
+	"-p update .theosrc",
 	c_red, local(@"LAUNCH", @"Please launch"), c_cyan, c_red, local(@"ONE_OPT", @"with one option at a time"), c_cyan, c_red, c_cyan, local(@"OPTION", @"option"), c_red, c_cyan, c_magenta, local(@"-U", @"Uninstall Theos"), c_cyan, c_magenta, local(@"-r", @"Reinstall Theos"), c_cyan, c_magenta, local(@"-S", @"Install enhanced dev tools & SDK files only.(requires theos to be installed already in location"), c_green, c_magenta, local(@"OR", @"or"), c_green, c_magenta, c_cyan, c_magenta, local(@"UPDATE", @"Update"), c_cyan, c_magenta, local(@"-.", @"Remove color from the terminal output"), c_reset];
 ///////////////////////////////////////
 ////         •Options•             ////
