@@ -17,7 +17,7 @@ This is a script for installing the TAI dependencies on your device.
 Option 2: TAI already installed
     
 
-    sudo ./tai-depends
+    sudo tai-depends
 
 Note: This script requires sudo and wget commands installed on your system.
 
